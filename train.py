@@ -1,5 +1,5 @@
 """
-Train and save vehicle load prediction and anomaly detection models.
+Train and save vehicle load prediction and anomaly detection models
 """
 
 from __future__ import annotations
