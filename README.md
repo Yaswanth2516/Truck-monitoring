@@ -7,7 +7,8 @@ This project predicts vehicle load from sensor readings, flags overload conditio
 - Scikit-learn
 - Flask
 - SQLite
-- HTML/CSS dashboard (Flask template)
+- HTML/CSS/JavaScript dashboard (Flask template)
+- Chart.js (CDN for client-side visualization)
 
 ## Project structure
 - `data/` - synthetic dataset + SQLite event DB
@@ -16,7 +17,24 @@ This project predicts vehicle load from sensor readings, flags overload conditio
 - `train.py` - model training, evaluation, artifact export
 - `utils.py` - shared helpers (validation, db logging, model loading)
 - `app.py` - Flask API + dashboard routes
-- `templates/index.html` - basic monitoring dashboard
+- `templates/index.html` - dashboard layout and component structure
+- `static/css/styles.css` - modern responsive UI styling (light/dark modes)
+- `static/js/dashboard.js` - dashboard interactions, validation, chart updates
+
+## Dashboard features
+- Modern card-based monitoring UI with responsive layout (mobile + desktop)
+- Sensor input form with labels, placeholders, inline validation, and tooltips
+- Prediction actions: `Predict Load`, `Sample Data`, and `Reset`
+- Output panel with predicted load, status, anomaly flag, and threshold
+- Status indicators with color coding:
+  - Green = safe
+  - Red = overloaded
+- Progress bar for load vs threshold
+- Chart.js bar chart for predicted load and threshold comparison
+- Overload toast alert for critical conditions
+- Theme toggle with persistent preference:
+  - Light mode
+  - Dark mode
 
 ## Step-by-step setup
 1. Install dependencies:
