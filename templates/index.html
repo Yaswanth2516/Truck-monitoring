@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vehicle Load Monitoring Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; background: #f4f6f9; color: #1f2937; }
+    .card { max-width: 760px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+    h1 { margin-top: 0; font-size: 1.6rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+    input { width: 100%; padding: 9px; border: 1px solid #d1d5db; border-radius: 6px; }
+    button { margin-top: 14px; padding: 10px 14px; border: none; border-radius: 8px; background: #2563eb; color: white; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    .result { margin-top: 18px; padding: 14px; border-radius: 8px; background: #eef2ff; }
+    .status-safe { color: #166534; font-weight: 700; }
+    .status-overloaded { color: #991b1b; font-weight: 700; }
+    .muted { color: #6b7280; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Vehicle Load Monitoring</h1>
+    <p class="muted">Threshold load: <strong>{{ threshold }}</strong></p>
+
+    <div class="grid">
+      <div>
+        <label for="suspension_displacement">Suspension Displacement</label>
+        <input id="suspension_displacement" type="number" step="any" value="75" />
+      </div>
+      <div>
+        <label for="axle_pressure">Axle Pressure</label>
+        <input id="axle_pressure" type="number" step="any" value="280" />
+      </div>
+      <div>
+        <label for="vehicle_speed">Vehicle Speed</label>
+        <input id="vehicle_speed" type="number" step="any" value="55" />
+      </div>
+      <div>
+        <label for="vibration_levels">Vibration Levels</label>
+        <input id="vibration_levels" type="number" step="any" value="1.9" />
+      </div>
+    </div>
+
+    <button id="predictBtn">Predict Load</button>
+
+    <div class="result" id="resultBox">
+      Submit sensor values to view predicted load and status.
+    </div>
+  </div>
+
+  <script>
+    async function predictLoad() {
+      const payload = {
+        suspension_displacement: Number(document.getElementById("suspension_displacement").value),
+        axle_pressure: Number(document.getElementById("axle_pressure").value),
+        vehicle_speed: Number(document.getElementById("vehicle_speed").value),
+        vibration_levels: Number(document.getElementById("vibration_levels").value)
+      };
+
+      const res = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      const box = document.getElementById("resultBox");
+
+      if (!res.ok) {
+        box.innerHTML = `<strong>Error:</strong> ${data.error || "Invalid request"}`;
+        return;
+      }
+
+      const statusClass = data.status === "OVERLOADED" ? "status-overloaded" : "status-safe";
+      box.innerHTML = `
+        <div><strong>Current Sensor Values:</strong> ${JSON.stringify(payload)}</div>
+        <div><strong>Predicted Load:</strong> ${data.predicted_load}</div>
+        <div><strong>Status:</strong> <span class="${statusClass}">${data.status}</span></div>
+        <div><strong>Anomaly:</strong> ${data.is_anomaly ? "YES" : "NO"}</div>
+      `;
+    }
+
+    document.getElementById("predictBtn").addEventListener("click", predictLoad);
+  </script>
+</body>
+</html>

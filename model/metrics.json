@@ -1,0 +1,20 @@
+{
+  "dataset_path": "data\\vehicle_sensor_data.csv",
+  "selected_model": "linear_regression",
+  "scores": {
+    "linear_regression": {
+      "MAE": 145.6619368494111,
+      "RMSE": 186.39984239212296
+    },
+    "random_forest": {
+      "MAE": 165.75063014592882,
+      "RMSE": 208.660325819942
+    }
+  },
+  "feature_columns": [
+    "suspension_displacement",
+    "axle_pressure",
+    "vehicle_speed",
+    "vibration_levels"
+  ]
+}
