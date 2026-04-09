@@ -1,5 +1,5 @@
 """
-Flask application for real-time vehicle load prediction and monitoring dashboard.
+Flask application for real time vehicle load prediction and monitoring dashboard.
 
 """
 
