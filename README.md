@@ -36,6 +36,40 @@ This project predicts vehicle load from sensor readings, flags overload conditio
   - Light mode
   - Dark mode
 
+## Sensor input guide (what changes and how it acts)
+
+### 1) Suspension Displacement (`suspension_displacement`)
+- **What it represents:** vertical suspension movement caused by payload weight and road conditions.
+- **How it changes:** usually increases when cargo weight increases; can also spike on bumps/uneven roads.
+- **How it acts in prediction:** higher displacement generally pushes the model toward higher predicted load, especially when paired with high axle pressure.
+
+### 2) Axle Pressure (`axle_pressure`)
+- **What it represents:** force applied on axle(s) due to vehicle + cargo mass.
+- **How it changes:** rises as payload increases; may fluctuate slightly due to braking, acceleration, and road gradient.
+- **How it acts in prediction:** this is typically one of the strongest load indicators; sustained high values are commonly linked to overload outcomes.
+
+### 3) Vehicle Speed (`vehicle_speed`)
+- **What it represents:** current vehicle speed at the time of measurement.
+- **How it changes:** depends on driving behavior, traffic, and route profile.
+- **How it acts in prediction:** speed provides context rather than direct weight; unusual combinations (for example very high speed with extreme pressure/vibration) can contribute to anomaly detection.
+
+### 4) Vibration Levels (`vibration_levels`)
+- **What it represents:** intensity/frequency of vibration measured by onboard sensors.
+- **How it changes:** tends to increase with poor road surfaces, unstable load distribution, or mechanical stress.
+- **How it acts in prediction:** moderate increase can align with heavier loads, but extreme or inconsistent values are often useful for anomaly flagging.
+
+### 5) Vehicle Load (`predicted_load`, output from model)
+- **What it represents:** estimated current load computed from the above sensor inputs.
+- **How it changes:** rises when displacement/pressure (and sometimes vibration) trends indicate heavier payload.
+- **How it acts in system behavior:**
+  - Compared against `threshold_load`
+  - `predicted_load > threshold_load` -> status becomes `OVERLOADED`
+  - `predicted_load <= threshold_load` -> status remains `SAFE`
+
+### Important note
+- Sensor effects are **combined** (multivariate). A single field alone may not determine the final result.
+- Different truck types, sensor calibration, and road environments can change exact behavior.
+
 ## Step-by-step setup
 1. Install dependencies:
    ```bash
