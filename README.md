@@ -1,6 +1,6 @@
 # Machine Learning Vehicle Load Monitoring System
 
-This project predicts vehicle load from sensor readings, flags overload conditions, detects anomalous sensor patterns, and logs important events.
+This project predicts vehicle load from sensor readings, flags overload conditions, detects anomalous sensor patterns, and logs important events
 
 ## Tech stack
 - Python
