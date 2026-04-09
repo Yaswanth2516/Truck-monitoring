@@ -22,7 +22,7 @@ This project predicts vehicle load from sensor readings, flags overload conditio
 - `static/js/dashboard.js` - dashboard interactions, validation, chart updates
 
 ## Dashboard features
-- Modern card-based monitoring UI with responsive layout (mobile + desktop)
+- Modern card-based monitoring UI with responsive layout (mobile + desktop).
 - Sensor input form with labels, placeholders, inline validation, and tooltips
 - Prediction actions: `Predict Load`, `Sample Data`, and `Reset`
 - Output panel with predicted load, status, anomaly flag, and threshold
