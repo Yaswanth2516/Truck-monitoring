@@ -1,5 +1,6 @@
 """
-Flask app for real-time vehicle load prediction and monitoring dashboard.
+Flask application for real-time vehicle load prediction and monitoring dashboard.
+
 """
 
 from __future__ import annotations
