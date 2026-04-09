@@ -15,7 +15,7 @@ Thumbs.db
 .idea/
 
 # Environment / secrets
-
+.env
 .env.*
 
 # Build/test artifacts
